@@ -1,4 +1,4 @@
-let localStream;
+ let localStream;
 let remoteStream;
 let localPeerConnection;
 let remotePeerConnection;
@@ -25,6 +25,14 @@ shareButton.onclick = shareScreen;
 sendButton.onclick = sendMessage;
 
 async function start() {
+  try {
+    await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+  } catch (error) {
+    alert('Please grant permission to access camera and microphone.');
+    console.error('Permission denied for accessing media devices.', error);
+    return;
+  }
+  
   try {
     localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     localVideo.srcObject = localStream;
